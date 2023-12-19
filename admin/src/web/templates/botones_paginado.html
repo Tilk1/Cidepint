@@ -1,0 +1,17 @@
+{% macro botones_paginas(model, data, total_paginas) %}
+    {% set pagina_anterior = data["page"] - 1 %}
+    {% set pagina_siguiente = data["page"] + 1 %}
+    
+    <div class="container mt-5">
+        <div class="row justify-content-center mb-2">
+            Existen {{ data["total"] }} coincidencias. Esta viendo la pagina {{ data["page"]}} con {{ data["per_page"] }} elementos por pagina. Pagina actual: {{ data["page"] }}. Total de paginas: {{ total_paginas }}.
+        </div>
+        
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item{{ ' disabled' if pagina_anterior == 0 }}"><a class="page-link" href="/{{model}}/{{ pagina_anterior }}" tabindex="-1">Anterior</a></li>
+                <li class="page-item{% if data["page"] >= total_paginas %} disabled{% endif %}"><a class="page-link" href="/{{model}}/{{ pagina_siguiente }}">Siguiente</a>
+            </ul>
+        </nav>
+    </div>
+{% endmacro %}

@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block title %}Registro google{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card w-80">
+            <div class="card-header text-center">
+                <h2 class="card-title">Bienvenido/a {{info_usuario.given_name}}!</h2>
+            </div>
+            <div class="card-body">
+                <form action="/auth/registro-google/completar-registro" method="POST">
+                    <div class="text-center">
+                        <p>Debido a que google no nos brinda todos los datos correspondientes, por favor ingrese
+                            los faltantes.
+                        </p>
+                    </div>
+                    <div class="row">    
+                        <!-- Columna 1 -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tipo_documento">Tipo de Documento:</label>
+                                <select class="form-control" id="tipo_documento" name="tipo_documento" style="margin-bottom: 15px;" required>
+                                    <option selected="true" disabled="disabled"></option>
+                                    <option value="dni">DNI</option>
+                                    <option value="civica">Libreta Cívica</option>
+                                    <option value="enrolamiento">Libreta de Enrolamiento</option>
+                                    
+                                </select> 
+                            </div>
+
+                            <!-- Campo de texto -->
+                            <div class="form-group">
+                                <label for="nro_documento">Número de documento:</label>
+                                <input type="text" class="form-control" id="nro_documento" name="nro_documento" required>
+                            </div>
+
+                            <!-- Campo de texto-->
+                            <div class="form-group">
+                                <label for="direccion">Dirección:</label>
+                                <input type="text" id="direccion" class="form-control" name="direccion" required>
+                            </div>
+                        </div>
+                        <!-- Columna 2 -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- Campo select -->
+                                <label for="genero">Género:</label>
+                                <select class="form-control" id="genero" name="genero" style="margin-bottom: 15px;" required>
+                                    <option selected="true" disabled="disabled"></option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                    <option value="O">Otro (especifique abajo)</option>
+                                    <option value="P">Prefiero no decirlo</option>
+                                </select> 
+                            </div>
+
+                            <!-- Campo de texto -->
+                            <div class="form-group">
+                                <label for="genero_otro">Especifique el género:</label>
+                                <input type="text" class="form-control" id="genero_otro" name="genero_otro" disabled="disable">
+                            </div>
+
+                            <!-- Campo de texto  -->
+                            <div class="form-group">
+                                <label for="telefono">Teléfono:</label>
+                                <input type="text" id="telefono" class="form-control" name="telefono" required>
+                            </div>
+
+                            <input type="hidden" id="correo" name="correo" value="{{ info_usuario.email }}">
+                            <input type="hidden" id="nombre" name="nombre" value="{{ info_usuario.given_name }}">
+                            <input type="hidden" id="apellido" name="apellido" value="{{ info_usuario.family_name }}">
+                            
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="nombre_usuario">Nombre de usuario:</label>
+                                <input type="text" id="nombre_usuario" class="form-control" name="nombre_usuario" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de envío y volver -->
+                    <div class="card-footer bg-transparent border-success text-right">
+                        <div class="row mt-2">
+                            <div class="col-md-6 mx-auto">
+                                <a href="/" class="btn btn-secondary btn-block mt-1">Volver</a>
+                            </div>
+                            <div class="col-md-6 mx-auto">
+                                <button type="submit" class="btn btn-success btn-block mt-1">Registrarse</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+    $(document).ready(function() {
+        $('#genero').change(function() {
+        // Obtiene el valor seleccionado del select del genero
+        var valor_seleccionado = $(this).val();
+    
+        var campoTexto = $('#genero_otro');
+
+        // Verificar el valor seleccionado y habilitar o deshabilitar el campo de texto
+        if (valor_seleccionado === 'O') {
+            campoTexto.prop('disabled', false);
+        } else {
+            campoTexto.prop('disabled', true);
+        }
+        });
+      });
+    </script>
+{% endblock %}

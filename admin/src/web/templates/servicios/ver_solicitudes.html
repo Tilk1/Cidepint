@@ -1,0 +1,173 @@
+{% extends "layout.html" %}
+{% import 'botones_paginado.html' as macros %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+{% endblock %}
+
+{% block head_rest %}
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    {{ super() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+{% endblock %}
+
+{% block title %}
+    Solicitudes
+{% endblock %}
+
+{% set pagina_anterior = data["page"] - 1 %}
+{% set pagina_siguiente = data["page"] + 1 %}
+{% set total_paginas = (data["total"] // data["per_page"]) + (1 if data["total"] % data["per_page"] != 0 else 0) %}
+
+{% block content %}
+<div id="totalRegistros"></div>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Ver todas las solicitudes</h2>
+            </div>
+            <div class="card-body">
+
+       <!--          buscador -->
+       <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <form action="/servicios/solicitudes/buscar/" method="GET">
+                    {% if institucion_id is defined %}
+                        <input type="hidden" name="institucion_id" value="{{ institucion_id }}">
+                    {% endif %}
+                    <div class="row justify-content-center mb-3">
+                        <input type="hidden" name="pagina" value=1>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control mb-2" name="solicitante" placeholder="Buscar solicitante.. (o dejar en blanco)">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i> Buscar</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3 d-flex align-items-center">
+                            <label for="tipo" class="mr-2">Tipo:</label>
+                            <select class="form-control mb-2" id="tipo" name="tipo">
+                                <option value="Todos">Todos</option>
+                                {% for tipo in enums_tipos %}
+                                    <option value="{{ tipo['value'] }}">{{ tipo['value'] }}</option>
+                                {% endfor %}
+                            </select>                            
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center">
+                            <label for="estado" class="mr-2">Estado:</label>
+                            <select class="form-control mb-2" id="estado" name="estado">
+                                <option value="Todos">Todos</option>
+                                {% for estado in enums_estados %}
+                                    <option value="{{ estado['value'] }}">{{ estado['value'] }}</option>
+                                {% endfor %}
+                            </select>                                                    
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control smaller-text mb-2" id="calendario_desde" name="desde" placeholder="Desde" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control smaller-text mb-2" id="calendario_hasta" name="hasta" placeholder="Hasta" readonly>
+                        </div>                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    
+<!--  buscador -->
+
+        <table id="tabla1" class="hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Tipo de solicitud</th>
+                    <th scope="col">Solicitante</th>
+                    <th scope="col">Fecha que fue solicitado</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in data["data"] %}
+                    <tr>
+                        <td>{{ solicitud.titulo }}</td>
+                        <td>{{ solicitud["servicio_solicitado"].tipo }}</td>
+                        <td>{{ solicitud["solicitante"].nombre }}</td>
+                        <td>{{ solicitud.creado_el }}</td>
+                        <td>{{ solicitud.estado.value }}</td>
+                        <td>
+                            <a href="/servicios/solicitudes/modificar/{{solicitud.id}}"><i class="bi bi-reply detalle-icon" title="Atender"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- {{ macros.botones_paginas('solicitudes', data, total_paginas) }} -->
+        <div class="row justify-content-center mb-2">
+            Existen {{ data["total"] }} coincidencias. Esta viendo la pagina {{ data["page"]}} con {{ data["per_page"] }} elementos por pagina. Pagina actual: {{ data["page"]}}. Total de paginas: {{ total_paginas }}.
+        </div>
+        {% if institucion_id is defined %}
+            {% if filtro == True %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item{{ ' disabled' if pagina_anterior == 0 }}"><a class="page-link" href="/servicios/solicitudes/buscar/?institucion_id={{institucion_id}}&pagina={{ pagina_anterior }}&solicitante={{ solicitante }}&tipo={{ tipo }}&estado={{estado}}&desde={{desde}}&hasta{{hasta}}" tabindex="-1">Anterior</a></li>
+                    <li class="page-item{% if data["page"] >= total_paginas %} disabled{% endif %}"><a class="page-link" href="/servicios/solicitudes/buscar/?institucion_id={{institucion_id}}&pagina={{ pagina_siguiente }}&solicitante={{ solicitante }}&tipo={{ tipo }}&estado={{estado}}&desde={{desde}}&hasta{{hasta}}">Siguiente</a>
+                </ul>
+            </nav>
+            {% else %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item{{ ' disabled' if pagina_anterior == 0 }}"><a class="page-link" href="/servicios/solicitudes/institucion/{{ institucion_id }}/{{ pagina_anterior }}" tabindex="-1">Anterior</a></li>
+                    <li class="page-item{% if data["page"] >= total_paginas %} disabled{% endif %}"><a class="page-link" href="/servicios/solicitudes/institucion/{{ institucion_id }}/{{ pagina_siguiente }}">Siguiente</a>
+                </ul>
+            </nav>
+            {% endif %}
+
+        {% else %}
+                {% if filtro == True %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item{{ ' disabled' if pagina_anterior == 0 }}"><a class="page-link" href="/servicios/solicitudes/buscar/?pagina={{ pagina_anterior }}&solicitante={{ solicitante }}&tipo={{ tipo }}&estado={{estado}}&desde={{desde}}&hasta{{hasta}}" tabindex="-1">Anterior</a></li>
+                        <li class="page-item{% if data["page"] >= total_paginas %} disabled{% endif %}"><a class="page-link" href="/servicios/solicitudes/buscar/?pagina={{ pagina_siguiente }}&solicitante={{ solicitante }}&tipo={{ tipo }}&estado={{estado}}&desde={{desde}}&hasta{{hasta}}">Siguiente</a>
+                    </ul>
+                </nav>
+                {% else %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item{{ ' disabled' if pagina_anterior == 0 }}"><a class="page-link" href="/servicios/solicitudes/{{ pagina_anterior }}" tabindex="-1">Anterior</a></li>
+                        <li class="page-item{% if data["page"] >= total_paginas %} disabled{% endif %}"><a class="page-link" href="/servicios/solicitudes/{{ pagina_siguiente }}">Siguiente</a>
+                    </ul>
+                </nav>
+                    {% endif %}
+        {% endif %}
+    </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% include 'dataTable.html' %}
+    <script>
+        $(document).ready(function () {
+            $('#calendario_desde').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true
+            });
+            $('#calendario_hasta').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true
+            });
+        });
+    </script>
+{% endblock %}

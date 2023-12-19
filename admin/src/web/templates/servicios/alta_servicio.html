@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+
+{% block title %}Alta de Servicio{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2 class="card-title">Dar de alta servicio</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción:</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo de Servicio:</label>
+                            <select class="form-control" id="tipo" name="tipo">
+                                <option value="analisis">Análisis</option>
+                                <option value="consultoria">Consultoría</option>
+                                <option value="desarrollo">Desarrollo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="habilitado">Habilitado:</label>
+                            <select class="form-control" id="habilitado" name="habilitado">
+                                <option value="True">SI</option>
+                                <option value="False">NO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="palabras_claves">Palabras clave:</label>
+                            <textarea class="form-control" id="palabras_claves" name="palabras_claves" rows="4"></textarea>
+                        </div>
+                            <div class="form-group">
+                                <label for="tipo">Institucion:</label>
+                                <select class="form-control" id="institucion" name="institucion">
+                                    {% for institucion in data %}
+                                        <option value="{{ institucion.id }}">{{ institucion.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        <div class="card-footer bg-transparent border-success text-right">
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    {% if id_inst == 0 %}
+                                        <a href="/servicios" class="btn btn-secondary btn-block mt-1">Volver</a>
+                                    {% else %}
+                                        <a href="/servicios/ver_servicios_institucion/{{id_inst}}" class="btn btn-secondary btn-block mt-1">Volver</a>    
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-success btn-block mt-1">Dar de alta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

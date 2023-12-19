@@ -1,0 +1,30 @@
+.error-container {
+    text-align: center;
+    margin: 5rem auto;
+}
+
+.error-box {
+    padding: 20px;
+    background-color: #343a40;
+    color: white;
+    border: 2px solid rgb(0, 0, 0); /* Cambia el color del borde a tu preferencia */
+    border-radius: 10px; /* Agrega esquinas redondeadas al contenedor */
+}
+
+.error-box h1 {
+    font-size: 2.5rem;
+}
+
+.error-box p {
+    font-size: 1.25rem;
+}
+
+.error-box a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color:#218a3f; /* Cambia el color de fondo del botón a tu preferencia */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px; /* Agrega esquinas redondeadas al botón */
+}

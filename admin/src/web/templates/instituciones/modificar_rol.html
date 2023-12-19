@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}Cambiar rol{% endblock %}
+
+{% block content %}
+{% set usuario_con_rol = data %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card w-50"> <!-- cambiar w-50 w-75 para los distintos tamaños -->
+            <div class="card-header text-center">
+                <h2 class="card-title">Cambiar rol</h2>
+            </div>
+            <div class="card-body">
+                <form action="/instituciones/detalle/{{id_inst}}/modificar_rol/{{usuario_con_rol.usuario.id}}" method="POST">
+                    <div style="text-align: center;">
+                        <h5>El integrante {{usuario_con_rol.usuario.nombre}} {{usuario_con_rol.usuario.apellido}} tiene el rol: {{ usuario_con_rol.rol[0].nombre }}</h5>
+                        <p>El correo es: {{ usuario_con_rol.usuario.correo }}</p>
+                        <p style="color: gray;">Tenga en cuenta los permisos que corresponden a cada rol </p>
+                    </div>
+                    <select class="form-control" id="rol" name="rol" style="margin-bottom: 15px;" value="{{ usuario_con_rol.rol[0].nombre }}">
+                        {% if usuario_con_rol.rol[0].nombre == "Dueño" %}
+                            <option value="Dueño" selected="true">Dueño</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Operador">Operador</option>
+                        {% endif %}
+                        {% if usuario_con_rol.rol[0].nombre == "Administrador" %}
+                            <option value="Administrador" selected="true">Administrador</option>
+                            <option value="Dueño">Dueño</option>
+                            <option value="Operador">Operador</option>
+                        {% endif %}
+                        {% if usuario_con_rol.rol[0].nombre == "Operador" %}
+                            <option value="Operador" selected="true">Operador</option>
+                            <option value="Dueño">Dueño</option>
+                            <option value="Administrador">Administrador</option>
+                        {% endif %}   
+                    </select> 
+                    <!-- Botones de envío y volver -->
+                    <div class="card-footer bg-transparent border-success text-right">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <a href="/instituciones/detalle/{{id_inst}}/administrar_integrantes/1" class="btn btn-secondary btn-block mt-1">Volver</a>
+                            </div>
+                            <div class="col-md-6 ">
+                                <button type="submit" class="btn btn-success btn-block mt-1">Cambiar rol</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

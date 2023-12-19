@@ -1,0 +1,15 @@
+<script>
+    new DataTable('#tabla1', {
+    responsive: true,
+    ordering: false,  // habilita ordenamiento
+    paging: false,    // paginacion
+    searching: false, // funcion de busqueda
+    language: {
+        paginate: { previous: 'Anterior', next: 'Siguiente' },
+        zeroRecords: 'No hay coincidencias',
+        info: '', // Mostrando página _PAGE_ de _PAGES_ (Total de entradas: _TOTAL_)
+        infoEmpty: '',
+        lengthMenu: '' // Mostrar _MENU_ entradas
+    },
+});
+</script>

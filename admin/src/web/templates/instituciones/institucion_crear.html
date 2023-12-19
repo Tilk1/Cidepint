@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block title %}Crear Institucion{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Dar de alta institucion</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="row">
+                    <!-- Columna 1 -->
+                    <div class="col-md-4">
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="nombre">Nombre de la institución:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre">
+                        </div>
+
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="direccion">Direccion:</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion">
+                        </div>
+
+                        <!-- Campo de texto largo (área de texto) -->
+                        <div class="form-group">
+                            <label for="info">Información:</label>
+                            <textarea class="form-control" id="informacion" name="informacion" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <!-- Columna 2 -->
+                    <div class="col-md-4">
+                        <!-- Campo de select -->
+                        <label for="habilitada">Habilitada:</label>
+                        <select class="form-control" id="habilitada" name="habilitada" style="margin-bottom: 15px;">
+                            <option value=True>SI</option>
+                            <option value=False>NO</option>
+                        </select>
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="web">Web:</label>
+                            <input type="text" class="form-control" id="web" name="web">
+                        </div>
+                        <!-- Campo de texto largo (area de texto)-->
+                        <div class="form-group">
+                            <label for="info">Palabras clave:</label>
+                            <textarea class="form-control" id="palabras_clave" name="palabras_clave"
+                                rows="2"></textarea>
+                        </div>
+
+                    </div>
+                    <!-- Columna 3 -->
+                    <div class="col-md-4">
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="palabras_clave">Horarios de atencion:</label>
+                            <input type="text" class="form-control" id="dias_horarios" name="dias_horarios">
+                        </div>
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="palabras_clave">Localización:</label>
+                            <input type="text" class="form-control" id="localizacion" name="localizacion">
+                        </div>
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="info">Información de contacto:</label>
+                            <textarea class="form-control" id="info_contacto" name="info_contacto" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer card -->
+                <div class="card-footer bg-transparent border-success text-right">
+                <div class="row">
+                    <div class="col-md-12 mx-auto">
+                        <div class="d-flex">
+                            <div style="white-space: nowrap;" class="mt-2">Dueño (Correo electronico):</div>
+                            <input type="mail" class="form-control ml-3" id="Dueño" name="Dueño">
+                        </div>
+                    </div>
+                </div>
+                <!-- Botones de envío y volver -->
+                <div class="row mt-4">
+                    <div class="col-md-6 mx-auto">
+                        <a href="/instituciones" class="btn btn-secondary btn-block mt-2">Volver</a>
+                    </div>
+                    <div class="col-md-6 mx-auto">
+                        <button type="submit" class="btn btn-success btn-block mt-2">Dar de alta</button>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

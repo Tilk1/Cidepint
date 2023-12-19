@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}Iniciar Sesion{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card card_pequeña">
+            <div class="card-header text-center">
+                <h2 class="card-title">Iniciar Sesion</h2>
+            </div>
+            <div class="card-body">
+                <form action="/auth/autenticar" method="POST">
+
+                    <div class="mx-auto">
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="correo">Correo:</label>
+                            <input type="email" id="correo" class="form-control" name="correo" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre">Contraseña:</label>
+                        <input type="password" class="form-control" id="contraseña" name="contraseña" >
+                    </div>
+
+                    <!-- Botones de envío y volver -->
+                    <div class="card-footer bg-transparent border-success text-right">
+                        <div class="row mt-2">
+                            <div class="col-md-6 mx-auto">
+                                <a href="/" class="btn btn-secondary btn-block mt-1">Volver</a>
+                            </div>
+                            <div class="col-md-6 mx-auto">
+                                <button type="submit" class="btn btn-success btn-block mt-1">Iniciar sesion</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

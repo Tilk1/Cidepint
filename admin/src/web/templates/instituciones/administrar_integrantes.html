@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+{% import 'botones_paginado.html' as macros %}
+
+{% set usuarios = data %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.css') }}">
+{% endblock %}
+
+{% block head_rest %}
+{{ super() }}
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+{% endblock %}
+
+{% block title %}
+Administrar integrantes
+{% endblock %}
+
+{% set pagina_anterior = data["page"] - 1 %}
+{% set pagina_siguiente = data["page"] + 1 %}
+{% set total_paginas = (data["total"] // data["per_page"]) + (1 if data["total"] % data["per_page"] != 0 else 0) %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Administrar integrantes</h2>
+        </div>
+        <!-- buscador -->
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form action="/instituciones/detalle/{{ id_inst }}/administrar_integrantes/buscar/" method="GET">
+                        <div class="input-group mb-3">
+                            <input type="hidden" name="pagina" value=1>
+                            <input type="text" class="form-control" name="palabra"
+                                placeholder="Buscar integrante.. (o dejar en blanco)" aria-label="Ingrese el correo"
+                                aria-describedby="basic-addon1">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary ml-1" type="submit"><i
+                                        class="bi bi-search"></i> Buscar</button>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center align-items-center mt-3">
+                            <div class="col-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="activoradio" value="activo"
+                                        required>
+                                    <label class="form-check-label" for="inlineRadio1">Activo</label>
+                                </div>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="activoradio" value="noactivo">
+                                    <label class="form-check-label" for="inlineRadio2">No activo</label>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="activoradio" value="todos" checked>
+                                    <label class="form-check-label" for="inlineRadio2">Todos</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- fin buscador -->
+        <div class="card-body">
+            <table id="tabla1" class="hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Nombre usuario</th>
+                        <th scope="col">Activo</th>
+                        <th scope="col">Nombre y apellido</th>
+                        <th scope="col">Nro documento</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios["data"] %}
+                    <td>{{ usuario.integrante.correo }}</td>
+                    <td>{{ usuario.integrante.nombre_usuario }}</td>
+                    {% if usuario.integrante.activo == true%}
+                    <td><i class="bi bi-check2" style="font-size: 25px; color:green"></i></td>
+                    {% else %}
+                    <td><i class="bi bi-x-lg" style="font-size: 25px; color: red;"></i></td>
+                    {% endif %}
+                    <td>{{ usuario.integrante.nombre }} {{ usuario.integrante.apellido }}</td>
+                    <td>{{ usuario.integrante.nro_documento }}</td>
+                    <td>{{ usuario.integrante.telefono }}</td>
+                    <td>{{ usuario.rol[0].nombre }}</td>
+                    <td>
+                        <a href="/instituciones/detalle/{{id_inst}}/modificar_rol/{{usuario.integrante.id}}"><i class="bi bi-journal-plus"
+                                style="font-size: 25px; color:green"></i></a>
+                        <a href="/instituciones/detalle/{{id_inst}}/expulsar_integrante/{{usuario.integrante.id}}"><i class="bi bi-door-open"
+                                style="font-size: 25px; color: red;"></i></a>
+                    </td>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="row justify-content-center mb-2">
+            Existen {{ data["total"] }} coincidencias. Esta viendo la pagina {{ data["page"]}} con {{ data["per_page"] }} elementos por pagina. Pagina actual: {{ data["page"] }}. Total de paginas: {{ total_paginas }}.
+        </div>
+        {% if filtro == True %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item{{ ' disabled' if pagina_anterior == 0 }}"><a class="page-link" href="/instituciones/detalle/{{ id_inst }}/administrar_integrantes/buscar/?pagina={{ pagina_anterior }}&palabra={{ palabra }}&activoradio={{ estado }}" tabindex="-1">Anterior</a></li>
+                <li class="page-item{% if data["page"] >= total_paginas %} disabled{% endif %}"><a class="page-link" href="/instituciones/detalle/{{ id_inst }}/administrar_integrantes/buscar/?pagina={{ pagina_siguiente }}&palabra={{ palabra }}&activoradio={{ estado }}">Siguiente</a>
+            </ul>
+        </nav>
+        {% else %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item{{ ' disabled' if pagina_anterior == 0 }}"><a class="page-link" href="/instituciones/detalle/{{ id_inst }}/administrar_integrantes/{{ pagina_anterior }}" tabindex="-1">Anterior</a></li>
+                <li class="page-item{% if data["page"] >= total_paginas %} disabled{% endif %}"><a class="page-link" href="/instituciones/detalle/{{ id_inst }}/administrar_integrantes/{{ pagina_siguiente }}">Siguiente</a>
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% include 'dataTable.html' %}
+{% endblock %}

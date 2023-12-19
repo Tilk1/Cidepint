@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Eliminar Usuario{% endblock %}
+
+{% block content %}
+{% set usuario = data %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card w-50"> <!-- cambiar w-50 w-75 para los distintos tamaños -->
+            <div class="card-header text-center">
+                <h2 class="card-title">Eliminar Usuario</h2>
+            </div>
+            <div class="card-body">
+                <form action="/usuarios/eliminar/{{ usuario.id }}" method="POST">
+                    <div style="text-align: center;">
+                        <h5>¿Esta seguro que desea eliminar al usuario: {{ usuario.nombre_usuario }}?</h5>
+                        <p>El correo es: {{ usuario.correo }}</p>
+                        <p style="color: gray;">Esta accion no puede revertise, accione con precaucion</p>
+                    </div>
+                    <!-- Botones de envío y volver -->
+                    <div class="card-footer bg-transparent border-success text-right">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <a href="/usuarios/" class="btn btn-secondary btn-block mt-1">Volver</a>
+                            </div>
+                            <div class="col-md-6 ">
+                                <button type="submit" class="btn btn-danger btn-block mt-1" formaction="/usuarios/eliminar/{{ usuario.id }}">
+                                    <i class="bi bi-x-circle" style></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

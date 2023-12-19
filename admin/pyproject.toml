@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "web"
+version = "0.1.0"
+description = ""
+authors = ["Cath <catu.gaitan@gmail.com>"]
+readme = "README.md"
+packages = [{include = "web", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+flask = "^2.3.3"
+psycopg2-binary = "^2.9.7"
+flask-sqlalchemy = "^3.1.1"
+flask-mail = "^0.9.1"
+flask-session = "^0.5.0"
+flask-bcrypt = "^1.0.1"
+jsonfy = "^0.4"
+faker = "^19.6.2"
+flask-cors = "^4.0.0"
+flask-jwt-extended = "^4.5.3"
+authlib = "^1.2.1"
+requests = "^2.31.0"
+pyopenssl = "^23.3.0"
+geopy = "^2.4.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+flask-shell-ipython = "^0.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

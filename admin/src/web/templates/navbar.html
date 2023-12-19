@@ -1,0 +1,88 @@
+<div class="navbar-wrapper">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <!-- Logo y texto del logo -->
+      <a class="navbar-brand" href="/">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Imagen de perfil">
+      </a>
+  
+      <!-- Botón de menú colapsable en pantallas pequeñas -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Contenedor de elementos de navegación -->
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mx-auto"> <!-- mx-auto para centrar elementos -->
+          {% if esta_auntenticado(session) %}
+          {% if tiene_permiso_front() %}
+          <li class="nav-item">
+            <a class="nav-link" href="/usuarios/">Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/instituciones">Instituciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/servicios">Servicios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/servicios/solicitudes">Solicitudes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/configuracion">Configuración</a>
+          </li>
+          {% endif %}
+          {% endif %}
+          {% if esta_auntenticado(session) %}
+          {% if not tiene_permiso_front() %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle ml-5" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <strong>Mis instituciones </strong>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              {% for institucion in session["mis_instituciones"] %}
+                <a class="dropdown-item" href="/instituciones/detalle/{{ institucion.id }}">{{institucion.nombre}}</a>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% endif %}
+          </li>
+        </ul>
+  
+        <!-- Menú de inicio de sesión a la derecha -->
+        <ul class="navbar-nav ml-auto"> <!-- Cambiado de li a ul para agrupar los elementos -->
+          {% if not(esta_auntenticado(session)) %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuRegistro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Registrarse
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuRegistro">
+              <a class="dropdown-item" href="/auth/preregistro"><i class="bi bi-envelope-fill"></i>  Registro con correo</i></a>
+              <a class="dropdown-item" href="/auth/registro-google"><i class="bi bi-google"></i>  Registro con google</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuIniciarSesion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Iniciar Sesion
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuIniciarSesion">
+              <a class="dropdown-item" href="/auth/"><i class="bi bi-envelope-fill"></i>  Iniciar sesion con correo</i></a>
+              <a class="dropdown-item" href="/auth/autenticacion-google"><i class="bi bi-google"></i>  Iniciar sesion con google</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="{{ url_for('static', filename='images/perfil.webp') }}" alt="Imagen de perfil" class="rounded-circle" style="width: 40px; height: 40px;">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/usuarios/modificar-perfil">Modificar perfil</a>
+              <a class="dropdown-item" href="/auth/cerrar-sesion">Cerrar Sesión</a>
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

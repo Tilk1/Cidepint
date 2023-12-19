@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}Confirmacion de eliminacion{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card d-flex">
+            <div class="card-header text-center">
+                <h2 class="card-title">Confirmacion</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div style="text-align: center;">
+                        <h5>¿Esta seguro que desea eliminar a {{ data.nombre }}?</h5>
+                        <p style="color: gray;">Se eliminaran ademas todos los servicios asociados</p>
+                    </div>
+                    <!-- Botones de envío y volver -->
+                    <div class="card-footer bg-transparent border-success text-right">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="/instituciones" class="btn btn-secondary btn-block mt-1">Volver</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-danger btn-block mt-1">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

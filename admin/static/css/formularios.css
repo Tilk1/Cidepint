@@ -1,0 +1,237 @@
+/* Estilos de la tarjeta con Dark UI */
+.card {
+    background-color: rgba(25, 35, 47, 0.95);
+    color: #e3e9f0; /* Texto en blanco */
+    border: 1px solid #262626; /* Borde oscuro */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-bottom: 20px;
+}
+
+.card .card-header {
+    background-color: #181818; /* Encabezado de la tarjeta oscuro */
+    border-bottom: 1px solid #444; /* Borde inferior del encabezado oscuro */
+}
+
+.card .card-title {
+    color: #539a76; /* Título en blanco */
+}
+
+.card .card-body {
+    padding: 1rem; /* Relleno interno */
+}
+
+.card .btn-primary {
+    background-color: #539a76; /* Botones oscuros */
+    color: #fff; /* Texto de botón en blanco */
+    border: none; /* Sin borde en los botones */
+}
+
+.card .btn:hover {
+    filter: brightness(0.75);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Estilos para los inputs (elementos de entrada) */
+.card input,
+.card input,
+.card select,
+.card textarea {
+    background-color: #313131; /* Color de fondo personalizado para los inputs */
+    color: #fff; /* Color de texto en los inputs */
+    border: 1px solid #555; /* Borde oscuro para los inputs */
+}
+.card input:focus,
+.card input:focus,
+.card select:focus,
+.card textarea:focus {
+    background-color: #555; /* Color de fondo en estado de foco */
+    border-color: #777; /* Color del borde en estado de foco */
+    color: #fff; /* Color del texto en estado de foco */
+    outline: none; /* Elimina el resaltado de foco predeterminado */
+}
+
+.modificar-icon {
+    transition: color 0.3s; /* Animación de transición para el color */
+    color: #539a76;
+    font-size: 25px;
+}
+
+.modificar-icon:hover {
+    color: #367957; /* Cambiar el color a verde al pasar el mouse por encima */
+}
+
+.detalle-icon {
+    transition: color 0.3s; /* Animación de transición para el color */
+    color: #63a9c5;
+    font-size: 25px;
+}
+
+.detalle-icon:hover {
+    color: #63a9c59f; /* Cambiar el color a verde al pasar el mouse por encima */
+}
+
+.eliminar-icon {
+    transition: color 0.3s; /* Animación de transición para el color */
+    color: #d35443;
+    font-size: 25px;
+}
+
+.eliminar-icon:hover {
+    color: #681414; /* Cambiar el color a verde al pasar el mouse por encima */
+}
+
+.ver-icon {
+    transition: color 0.3s; /* Animación de transición para el color */
+    color: #539a76;
+    font-size: 25px;
+}
+
+.ver-icon:hover {
+    color: #367957; /* Cambiar el color a verde al pasar el mouse por encima */
+}
+
+input:disabled {
+    background: #1a1919 !important;
+    color: #ffffff; /* Cambia el color del texto si lo deseas */
+}
+
+/* Customize the background color and text color for the modal content */
+.modal-content {
+    background-color: #262525;
+    color: #fff;
+}
+
+/* Customize the background color and text color for the modal header */
+.modal-header {
+    background-color: #dd3144;
+    border-bottom: 1px solid #333; /* Adjust border color if needed */
+    color: #fff;
+}
+
+/* Customize the background color and text color for the modal footer */
+.modal-footer {
+    background-color: #262525;
+    border-top: 1px solid #333; /* Adjust border color if needed */
+    color: #fff;
+}
+
+/* Estilos para el botón de búsqueda */
+.btn-outline-secondary {
+    color: #ffffff; /* Color del texto del botón */
+    border-color: #28a745; /* Color del borde del botón */
+}
+
+.btn-outline-secondary:hover {
+    color: #ffffff; /* Color del texto del botón al pasar el mouse */
+    background-color: #28a745; /* Color de fondo del botón al pasar el mouse */
+    border-color: #28a745; /* Color del borde del botón al pasar el mouse */
+}
+
+/* Estilos para el campo de entrada */
+.form-control {
+    color: #ffffff; /* Color del texto del campo de entrada */
+    background-color: #343a40; /* Color de fondo del campo de entrada */
+    border-color: #28a745; /* Color del borde del campo de entrada */
+}
+
+/* Estilos para los radio buttons */
+.form-check-input:checked {
+    background-color: #28a745; /* Color de fondo del radio button cuando está seleccionado */
+    border-color: #28a745; /* Color del borde del radio button cuando está seleccionado */
+}
+
+.form-check-input:checked + .form-check-label {
+    color: #ffffff; /* Color del texto del radio button cuando está seleccionado */
+}
+
+.form-check-input:not(:checked) + .form-check-label {
+    color: #ffffff; /* Color del texto del radio button cuando no está seleccionado */
+}
+
+/* Estilo personalizado para los radio botones cuando están marcados */
+.form-check-input:checked {
+    background-color: green;
+    border-color: green;
+}
+
+/* Estilo personalizado para los radio botones cuando están marcados */
+.form-check-input:checked {
+    background-color: green;
+    border-color: green;
+}
+
+/* Estilo personalizado para los radio botones cuando están marcados */
+.form-check-input:checked {
+    background-color: green;
+    border-color: green;
+}
+
+/* Cambiar el color del círculo del radio button cuando está marcado */
+.form-check-input:checked + .form-check-label::before {
+    background-color: green;
+    border-color: green;
+}
+
+/* Aumentar la especificidad para sobrescribir las reglas de Bootstrap */
+input.form-check-input:checked {
+    background-color: green;
+    border-color: green;
+}
+
+input.form-check-input:checked + label::before {
+    background-color: green;
+    border-color: green;
+}
+
+/* Estilo personalizado para los radio botones cuando están marcados */
+.form-check-input:checked {
+    background-color: green !important;
+    border-color: green !important;
+}
+
+/* Cambiar el color del círculo del radio button cuando está marcado */
+.form-check-input:checked + .form-check-label::before {
+    background-color: green !important;
+    border-color: green !important;
+}
+
+.card.card_pequeña {
+    background-color: rgba(25, 35, 47, 0.95);
+    color: #e3e9f0; /* Texto en blanco */
+    border: 1px solid #262626; /* Borde oscuro */
+    border-radius: 5px; /* Bordes redondeados */
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+/* Estilo para el fondo oscuro */
+.datepicker {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Estilo para los días del mes */
+.datepicker table tr td {
+    color: #fff;
+}
+
+/* Estilo para los botones de navegación */
+.datepicker table tr th {
+    color: #fff;
+    background-color: #555;
+}
+
+/* Estilo para el botón de cierre del datepicker */
+.datepicker tfoot tr th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Estilo para los campos de entrada con fondo oscuro */
+input[type="text"].form-control {
+    background-color: #333; /* Fondo oscuro */
+    color: #fff; /* Texto blanco */
+    /* Otros estilos, como bordes y márgenes, según sea necesario */
+}

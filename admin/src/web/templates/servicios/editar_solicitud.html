@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block title %}Atender solicitud{% endblock %}
+
+{% block content %}
+{% set solicitud = data.solicitud %}
+{% set solicitante = data.solicitante %}
+{% set servicio_solicitado = data.servicio_solicitado %}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Atender solicitud</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Datos de la solicitud
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Servicio pedido:</strong> {{ servicio_solicitado.nombre }}</p>
+                                <p><strong>Tipo:</strong> {{ servicio_solicitado.tipo }}</p>
+                                <p><strong>Fecha de solicitud:</strong> {{ solicitud.creado_el.strftime('%d/%m/%Y %H:%M') }} </p>
+                                {%if solicitud.estado.value == "Finalizada" and solicitud.cerrada_el is not none %}
+                                    <p><strong>Fecha de cierre:</strong> {{ solicitud.cerrada_el.strftime('%d/%m/%Y %H:%M') }} </p>
+                                {%endif%}
+                                <p><strong>Detalle:</strong> {{ solicitud.detalle }}</p>
+                                <p><strong>Estado:</strong> {{ solicitud.estado.value }}</p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Archivos adjuntos: </label><a class="nav-link" href={{solicitud.archivos_adjuntos}}>{{solicitud.archivos_adjuntos}}</a>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            
+
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Usuario que realizó la solicitud
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Nombre:</strong> {{ solicitante.nombre }}</p>
+                                <p><strong>Apellido:</strong> {{ solicitante.apellido }}</p>
+                                <p><strong>Correo:</strong> {{ solicitante.correo }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="estado">Estado:</label>
+                        <select class="form-control" id="estado" name="estado">
+                            {% for estado in enums_estados %}
+                            <option value="{{ estado['value'] }}" {% if estado['value'] == solicitud.estado.value %}selected{% endif %}>{{ estado['value'] }}</option>
+                            {% endfor %}
+                        </select> 
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="info">Observaciones:</label>
+                            <textarea class="form-control" id="detalle" name="detalle" rows="2">{{ solicitud.detalle }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                Notas/comentarios:
+                {% for nota in data.notas %}
+                <div class="alert alert-info alert-dismissible mt-3" role="alert">
+                    <h5><i class="bi bi-card-heading"></i> {{ nota.texto }}</h5>
+                    Escrito por: {{ nota.escrito_por }}
+                </div>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="info">Cargar nueva nota / comentario:</label>
+                            <textarea class="form-control" id="respuesta_al_cliente" name="respuesta_al_cliente" rows="2">{{ solicitud.respuesta_al_cliente }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="text-align: center;">
+                            <h5> Ultima modificacion: {{ solicitud.actualizado_el.strftime('%d/%m/%Y %H:%M') }}</h5>
+                        </div>
+                    </div>
+
+                    <!-- Botones de envío y volver -->
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="javascript:void(0);" class="btn btn-secondary btn-block mt-2" onclick="window.history.back();">Volver</a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success btn-block mt-2" name="accion"
+                                    value="modificar">Aplicar cambios</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

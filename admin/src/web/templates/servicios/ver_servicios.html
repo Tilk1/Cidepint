@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{% import 'botones_paginado.html' as macros %}
+{% set servicios = data %}
+
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.css') }}">
+{% endblock %}
+
+{% block head_rest %}
+    {{ super() }}
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+{% endblock %}
+
+{% block title %}
+    Servicios Registrados
+{% endblock %}
+
+{% set pagina_anterior = data["page"] - 1 %}
+{% set pagina_siguiente = data["page"] + 1 %}
+{% set total_paginas = (data["total"] // data["per_page"]) + (1 if data["total"] % data["per_page"] != 0 else 0) %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                {% if id_inst > 0 %}
+                    <h2 class="card-title">Servicios De la Institucion</h2>
+                {% else %}
+                   <h2 class="card-title">Servicios Registrados</h2>
+                {% endif %}          
+            </div>
+            <div class="card-body">
+                <table id="tabla1" class="hover" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Habilitado</th>
+                            {% if id_inst == 0 %}
+                                <th scope="col">Institucion que brinda el servicio</th>
+                            {% endif %}   
+                            <th scope="col">Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for servicio in servicios["data"] %}
+                        <tr>
+                                <td>{{ servicio.nombre }}</td>
+                                <td>{{ servicio.descripcion }}</td>
+                                <td>{{ servicio.tipo }}</td>
+                                {% if servicio.habilitado == true%}
+                                    <td><i class="bi bi-check2" style="font-size: 25px; color:green"></i></td>
+                                {% else %}
+                                    <td><i class="bi bi-x-lg" style="font-size: 25px; color: red;"></i></td>
+                                {% endif %}
+                                {% if id_inst == 0 %}
+                                    <td>{{ servicio.institucion.nombre }}</td>
+                                {% endif %}
+                                <td>
+                                    {% if esta_auntenticado(session) %}
+                                        {% if tiene_permiso_front(permisos_requeridos=["admin_servicios_destroy", "admin_servicios_update"], id_inst=id_inst) %}
+                                            <a href="/servicios/editar_servicio/{{id_inst}}/{{servicio.id}}"><i class="bi bi-pencil-square modificar-icon" style="font-size: 25px; color:green"></i></a>
+                                            <a href="/servicios/eliminar_servicio/{{id_inst}}/{{servicio.id}}"><i class="bi bi-trash3 eliminar-icon ml-2" style="font-size: 25px; color: red;"></i></a>
+                                        {% elif tiene_permiso_front(permisos_requeridos=["admin_servicios_update"], id_inst=id_inst) %}    
+                                            <a href="/servicios/editar_servicio/{{id_inst}}/{{servicio.id}}"><i class="bi bi-pencil-square modificar-icon" style="font-size: 25px; color:green"></i></a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if id_inst == 0 %}
+                {{ macros.botones_paginas('servicios', data, total_paginas) }}
+            {% else %}
+                <div class="container mt-5">
+                    <div class="row justify-content-center mb-2">
+                        Existen {{ data["total"] }} coincidencias. Esta viendo la pagina {{ data["page"]}} con {{ data["per_page"] }} elementos por pagina. Pagina actual: {{ data["page"] }}. Total de paginas: {{ total_paginas }}.
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item{{ ' disabled' if pagina_anterior == 0 }}"><a class="page-link"href="/servicios/ver_servicios_institucion/{{id_inst}}/{{pagina_anterior}}" tabindex="-1">Anterior</a></li>
+                            
+                            <li class="page-item{% if data["page"] == total_paginas %} disabled{% endif %}"><a class="page-link" href="/servicios/ver_servicios_institucion/{{id_inst}}/{{pagina_siguiente}}" >Siguiente</a>
+                        </ul>
+                    </nav>
+                </div>
+            {% endif %}
+            
+            <div class="card-footer bg-transparent border-success text-right">
+                <a href="/servicios/alta_servicio/{{id_inst}}" class="btn btn-success">Crear servicio</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {% include 'dataTable.html' %}
+{% endblock %}

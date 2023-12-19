@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}Detalle institucion{% endblock %}
+
+{% block content %}
+{% set institucion = data.institucion %}
+{% set datos_usuario_en_institucion = data.datos_usuario_en_institucion %}
+{% set usuario = data.usuario %}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Detalle de la institucion</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-center">Panel de administración</div>
+                            </div>
+                            <div class="card-body">
+                                {% if esta_auntenticado(session) %}
+                                    {% if tiene_permiso_front(permisos_requeridos=["solicitud_servicios_index","admin_servicios_index", "admin_usuarios_institucion_index"], id_inst=institucion.id) %}
+                                    <p><a class="btn btn-primary btn-block mb-4" href="/instituciones/detalle/{{institucion.id}}/administrar_integrantes/1">Administrar Integrantes</a></p>
+                                        <p><a class="btn btn-primary btn-block mb-4" href="/servicios/ver_servicios_institucion/{{institucion.id}}" >Gestionar Servicios</a></p>
+                                        <p><a class="btn btn-primary btn-block mb-4" href="/servicios/solicitudes/institucion/{{institucion.id}}/1">Atender solicitudes</a></p>
+                                    {% elif tiene_permiso_front(permisos_requeridos=["admin_servicios_index", "solicitud_servicios_index"], id_inst=institucion.id)%}
+                                        <p><a class="btn btn-primary btn-block mb-4" href="/servicios/ver_servicios_institucion/{{institucion.id}}" >Gestionar Servicios</a></p>
+                                        <p><a class="btn btn-primary btn-block mb-4" href="/servicios/solicitudes/institucion/{{institucion.id}}/1">Atender solicitudes</a></p>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>{{ institucion.nombre }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Rol actual en la institucion:</strong> {{datos_usuario_en_institucion.rol["nombre"]}} </p>
+                                <!-- <p><strong>Fecha de ingreso:</strong>  02/03/2023 </p> -->
+                                <p><strong>Estado:</strong> 
+                                    {% if institucion.habilitada %}
+                                        <span style="color: green;">Habilitada</span>
+                                    {% else %}
+                                        <span style="color: red;">Deshabilitada</span>
+                                    {% endif %}
+                                </p>
+                                <p><strong>Sitio web:</strong> <a class="link" href={{ institucion.web }} >{{ institucion.web }} </a></p>
+                                {% if tiene_permiso_front(permisos_requeridos=["admin_usuarios_institucion_create"], id_inst=institucion.id) %}
+                                    <form method="POST">
+                                    <div class="form-inline mt-5">
+                                        <div class="form-group mr-2">
+                                            <input type="text" class="form-control pr-5" id="correo" name="correo" placeholder="ejemplo@gmail.com">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i> Agregar integrante</button>
+                                    </div>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

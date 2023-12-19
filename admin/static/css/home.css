@@ -1,0 +1,76 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans", sans-serif;
+    background-image: url('../../static/images/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#titulo {
+    text-align: center;
+    font-size: 36px;
+    margin-top: 20px;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+footer {
+    background-color: #343a40;
+    color: #d1d0d0;
+    text-align: center;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.navbar-wrapper {
+    margin-bottom: 50px;
+}
+
+.navbar-nav .nav-link {
+    font-size: 14px; 
+    padding: 5px 10px; 
+}
+
+.navbar-nav .dropdown-menu {
+    font-size: 14px;
+    min-width: auto;
+}
+
+.navbar-nav .btn {
+    font-size: 13px;
+    padding: 7px 3px;
+    margin: 0 1px;
+}
+
+.navbar-nav .nav-link {
+    font-size: 14px; 
+    padding: 5px 10px; 
+}
+
+.navbar-nav .dropdown-menu {
+    font-size: 14px;
+    min-width: auto;
+}
+
+.navbar-nav .btn {
+    font-size: 13px;
+    padding: 7px 3px;
+    margin: 0 1px;
+}
+
+.nowrap {
+    white-space: nowrap;
+}

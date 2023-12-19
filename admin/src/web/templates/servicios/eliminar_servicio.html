@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}Eliminar Servicio{% endblock %}
+
+{% block content %}
+{% set servicio = data %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card w-50"> <!-- cambiar w-50 w-75 para los distintos tamaños -->
+            <div class="card-header text-center">
+                <h2 class="card-title">Eliminar Servicio</h2>
+            </div>
+            <div class="card-body">
+                <form action="/servicios/eliminar_servicio/{{ servicio.id }}" method="POST">
+                    <div style="text-align: center;">
+                        <h5>¿Esta seguro que desea eliminar el servicio: {{ servicio.nombre }}?</h5>
+                        <p>Descripcion: {{ servicio.descripcion }}</p>
+                        <p style="color: gray;">Esta accion no puede revertise, accione con precaucion</p>
+                    </div>
+                    <!-- Botones de envío y volver -->
+                    <div class="card-footer bg-transparent border-success text-right">
+                        <div class="row mt-2">
+                            <div class="col-md-6 mx-auto">
+                                {% if id_inst > 0 %}
+                                    <a href="/servicios/ver_servicios_institucion/{{id_inst}}" class="btn btn-secondary btn-block mt-1">Volver</a>
+                                {% else %}
+                                    <a href="/servicios" class="btn btn-secondary btn-block mt-1">Volver</a>
+                                {% endif %}
+                                
+                            </div>
+                            <div class="col-md-6 mx-auto">
+                                <button type="submit" class="btn btn-danger btn-block mt-1" 
+                                    formaction="/servicios/eliminar_servicio/{{id_inst}}/{{ servicio.id }}">
+                                    <i class="bi bi-x-circle" style></i> Eliminar definitivamente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

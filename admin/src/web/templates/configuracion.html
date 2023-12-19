@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}Configuración{% endblock %}
+
+{% block content %}
+{% set config = data %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Configuración</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST" id="formulario">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            {% if config.sitio_habilitado %}
+                                Estado del sitio: <span style="color:#28a745" class="d-inline">En línea!</span>
+                            {% else %}
+                                Estado del sitio: <span style="color:#ff0000" class="d-inline">Deshabilitado por mantenimiento</span>
+                            {% endif %}
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <!-- Columna 1 -->
+                        <div class="col-md-6">
+                            <!-- Campo de texto -->
+                            <div class="form-group">
+                                <label for="nombre">Elementos por página:</label>
+                                <span style="font-size: 20px; color: #28a745; cursor: pointer;" title="Cantidad de elementos por página en los listados del sistema (todos los listados tendrán este valor para el paginado)." data-toggle="tooltip">?</span>
+                                <input type="number" class="form-control" id="elementos_por_pagina" name="elementos_por_pagina" value="{{ config.elementos_por_pagina }}">
+                            </div>
+                            <!-- Campo de texto largo (área de texto) -->
+                            <div class="form-group">
+                                <label for="direccion">Informacion de contacto:</label>
+                                <span style="font-size: 20px; color: #28a745; cursor: pointer;" title="Esta informacion se mostrara en la app publica unicamente." data-toggle="tooltip">?</span>
+                                <textarea class="form-control" id="info_contacto" name="info_contacto" rows="5">{{ config.info_contacto }}</textarea>
+                            </div>
+                        </div>
+                        <!-- Columna 2 -->
+                        <div class="col-md-6">
+                            
+                            <!-- Campo de texto largo (area de texto)-->
+                            <div class="form-group">
+                                <label for="info">Mensaje de mantenimiento de sitio:</label>
+                                <span style="font-size: 20px; color: #28a745; cursor: pointer;" title="Este mensajes se muestra cuando el sitio esta deshabilitado en mantenimiento." data-toggle="tooltip">?</span>
+                                <textarea class="form-control" id="mensaje_mantenimiento" name="mensaje_mantenimiento" rows="5">{{ config.mensaje_mantenimiento }}</textarea>
+                            </div>
+
+                            {% if config.sitio_habilitado %}
+                                <button type="submit" class="btn btn-danger btn-block p-4" name="accion" value="deshabilitar">Deshabilitar sitio</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-success btn-block p-4" name="accion" value="deshabilitar">Habilitar sitio</button>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                    <!-- Botones de envío y volver -->
+                    <div class="row mt-4">
+                        <div class="col-md-12 mx-auto">
+                            <button type="submit" class="btn btn-success btn-block mt-1" name="accion" value="guardar">Guardar cambios</button>
+                        </div>
+                        <div class="col-md-12 mx-auto">
+                            <a href="/" class="btn btn-secondary btn-block mt-2">Volver</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

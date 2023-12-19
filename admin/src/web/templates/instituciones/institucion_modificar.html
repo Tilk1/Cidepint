@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block title %}Editar institucion{% endblock %}
+
+{% block content %}
+{% set institucion = data %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Modificar institucion</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="row">
+                    <!-- Columna 1 -->
+                    <div class="col-md-4">
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="nombre">Nombre de la institución:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ institucion.nombre }}" required>
+                        </div>
+
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="direccion">Direccion:</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" value="{{ institucion.direccion }}">
+                        </div>
+
+                        <!-- Campo de texto largo (área de texto) -->
+                        <div class="form-group">
+                            <label for="info">Información:</label>
+                            <textarea class="form-control" id="informacion" name="informacion" rows="2">{{ institucion.informacion }}</textarea>
+                        </div>
+                    </div>
+                    <!-- Columna 2 -->
+                    <div class="col-md-4">
+                        <!-- Campo de select -->
+                        <label for="habilitada">Habilitada:</label>
+                        <select class="form-control" id="habilitada" name="habilitada" style="margin-bottom: 15px;">
+                            <option value="True" {% if institucion.habilitada %} selected {% endif %}>SI</option>
+                            <option value="False" {% if not institucion.habilitada %} selected {% endif %}>NO</option>
+                        </select>          
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="web">Web:</label>
+                            <input type="text" class="form-control" id="web" name="web" value="{{ institucion.web }}">
+                        </div>
+                        <!-- Campo de texto largo (area de texto)-->
+                        <div class="form-group">
+                            <label for="info">Palabras clave:</label>
+                            <textarea class="form-control" id="palabras_clave" name="palabras_clave" rows="2">{{ institucion.palabras_clave }}</textarea>
+                        </div>
+
+                    </div>
+                    <!-- Columna 3 -->
+                    <div class="col-md-4">
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="palabras_clave">Horarios de atencion:</label>
+                            <input type="text" class="form-control" id="dias_horarios" name="dias_horarios" value="{{ institucion.dias_horarios }}">
+                        </div>
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="palabras_clave">Localización:</label>
+                            <input type="text" class="form-control" id="localizacion" name="localizacion" value="{{ institucion.localizacion }}">
+                        </div>
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="info">Información de contacto:</label>
+                            <textarea class="form-control" id="info_contacto" name="info_contacto" rows="2">{{ institucion.info_contacto }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Botones de envío y volver -->
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="javascript:void(0);" class="btn btn-secondary btn-block mt-2" onclick="window.history.back();">Volver</a>
+                            </div>                            
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success btn-block mt-2" name="accion" value="modificar">Aplicar cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

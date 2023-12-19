@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% import 'botones_paginado.html' as macros %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.css') }}">
+{% endblock %}
+
+{% block head_rest %}
+    {{ super() }}
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+{% endblock %}
+
+{% block title %}
+    Instituciones
+{% endblock %}
+
+{% set pagina_anterior = data["page"] - 1 %}
+{% set pagina_siguiente = data["page"] + 1 %}
+{% set total_paginas = (data["total"] // data["per_page"]) + (1 if data["total"] % data["per_page"] != 0 else 0) %}
+
+{% block content %}
+<div id="totalRegistros"></div>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Ver todas las instituciones</h2>
+            </div>
+            <div class="card-body">
+
+        <table id="tabla1" class="hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Web</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for institucion in data["data"] %}
+                    <tr>
+                        <td>{{ institucion.nombre }}</td>
+                        <td>{{ institucion.direccion }}</td>
+                        <td>{{ institucion.web }}</td>
+                        <td>
+                            <a href="/instituciones/detalle/{{institucion.id}}"><i class="bi bi-eye detalle-icon"></i></a>
+                            <a href="/instituciones/modificar/{{institucion.id}}"><i class="bi bi-pencil-square modificar-icon ml-2"></i></a>
+                            <a href="/instituciones/eliminar/{{institucion.id}}"><i class="bi bi-trash3 eliminar-icon ml-2"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {{ macros.botones_paginas('instituciones', data, total_paginas) }}
+       
+    </div>
+            <div class="card-footer bg-transparent border-success text-right">
+                <a href="/instituciones/formulario_crear" class="btn btn-success">Crear institución</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {% include 'dataTable.html' %}
+{% endblock %}

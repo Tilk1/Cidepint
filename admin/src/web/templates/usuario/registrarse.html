@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card card_pequeña">
+            <div class="card-header text-center">
+                <h2 class="card-title">Finalizar registro</h2>
+            </div>
+            <div class="card-body">
+                <form action="/auth/registrarse" method="POST">
+                    <!-- Dejar el contenido del formulario como está -->
+                    <div class="mx-auto">
+                        <div class="text-center">
+                            <p>Ingrese sus datos para poder finalizar el registro y poder iniciar sesión en nuestra pagina</p>
+                        </div>
+
+                        <!-- DESPUES LO TENGO QUE SACAR!!!!! -->
+                        <div class="form-group">
+                            <label for="token">Token:</label>
+                            <input type="text" class="form-control" id="token" name="token" required>
+                        </div>
+
+                        <!-- Campo de texto -->
+                        <div class="form-group">
+                            <label for="nombre_usuario">Nombre de Usuario:</label>
+                            <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" required>
+                        </div>
+
+                        <!-- Campo de texto largo (área de texto) -->
+                        <div class="form-group">
+                            <label for="contraseña">Contraseña:</label>
+                            <input type="password" id="contraseña" class="form-control" name="contraseña" required>
+                        </div>
+                    </div>
+
+                    <!-- Botones de envío y volver -->
+                    <div class="card-footer bg-transparent border-success text-right">
+                        <div class="row mt-2">
+                            <div class="col-md-6 mx-auto">
+                                <a href="/" class="btn btn-secondary btn-block mt-1">Volver</a>
+                            </div>
+                            <div class="col-md-6 mx-auto">
+                                <button type="submit" class="btn btn-success btn-block mt-1">Registrarse</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

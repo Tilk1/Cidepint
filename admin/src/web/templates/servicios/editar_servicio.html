@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+
+
+{% block title %}Panel del Servicio{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2 class="card-title">{{ servicio.nombre }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ servicio.nombre }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="descripcion">Descripcion</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ servicio.descripcion }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo">Tipo de Servicio</label>
+                                <select class="form-control" id="tipo" name="tipo">
+                                    {% set tipos_disponibles = ["Análisis", "Consultoría", "Desarrollo"] %}
+                                    {% for tipo in tipos_disponibles %}
+                                        <option value="{{ tipo }}" {% if servicio.tipo == tipo %}selected{% endif %}>{{ tipo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="habilitado">Habilitado</label>
+                                <select class="form-control" id="habilitado" name="habilitado">
+                                    <option value="True" {% if servicio.habilitado == True %}selected{% endif %}>SI</option>
+                                    <option value="False" {% if servicio.habilitado == False %}selected{% endif %}>NO</option>
+                                </select>
+                            </div>                            
+                            <div class="form-group">
+                                <label for="palabras_clave">Palabras Claves</label>
+                                <textarea class="form-control" id="palabras_clave" name="palabras_clave" rows="4">{{ servicio.palabras_claves }}</textarea>
+                            </div>
+                            <div class="card-footer bg-transparent border-success text-right">
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        {% if admin %}
+                                            <a href="/servicios" class="btn btn-secondary btn-block mt-1">Volver</a>
+                                        {% else %}
+                                            <a href="/servicios/ver_servicios_institucion/{{id_inst}}" class="btn btn-secondary btn-block mt-1">Volver</a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="hidden" name="_method" value="EDITAR">
+                                        <button type="submit" class="btn btn-success btn-block mt-1">Guardar cambios</button>
+                                    </div>
+                                </div>               
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

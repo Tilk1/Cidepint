@@ -1,0 +1,217 @@
+{% extends "layout.html" %}
+
+{% block title %}Modificar Perfil{% endblock %}
+{% set usuario = data %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card w-80"> <!-- cambiar w-50 w-75 para los distintos tamaños -->
+            <div class="card-header text-center">
+                <h2 class="card-title">Modificar perfil</h2>
+            </div>
+            <div class="card-body">
+                <form action="/usuarios/modificar-perfil" method="POST">
+                    <div class="row">
+                        <!-- Columna 1 -->
+                        <div class="col-md-4">
+                            <!-- Campo de texto -->
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ usuario.nombre }}" >
+                            </div>
+
+                            <!-- Campo de texto -->
+                            <div class="form-group">
+                                <label for="apellido">Apellido:</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" value="{{ usuario.apellido }}" >
+                            </div>
+
+                            <!-- Campo de texto -->
+                            <div class="form-group">
+                                <label for="nombre_usuario">Nombre de usuario:</label>
+                                <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" value="{{ usuario.nombre_usuario }}" >
+                            </div>
+                            
+                        </div>
+                        <!-- Columna 2 -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="tipo_documento">Tipo de Documento:</label>
+                                <select class="form-control" id="tipo_documento" name="tipo_documento" style="margin-bottom: 15px;" value="{{ usuario.tipo_documento }}">
+                                    {% if usuario.tipo_documento == "dni" %}
+                                        <option value="{{ usuario.tipo_documento }}" selected="true">DNI</option>
+                                        <option value="civica">Libreta Cívica</option>
+                                        <option value="enrolamiento">Libreta de Enrolamiento</option>
+                                    {% elif usuario.tipo_documento == "enrolamiento" %}
+                                        <option value="{{ usuario.tipo_documento }}" selected="true">Libreta de Enrolamiento</option>
+                                        <option value="civica">Libreta Cívica</option>
+                                        <option value="dni">DNI</option>
+                                    {% elif usuario.tipo_documento == "civica" %}
+                                        <option value="{{ usuario.tipo_documento }}" selected="true">Libreta Cívica</option>
+                                        <option value="enrolamiento">Libreta de Enrolamiento</option>
+                                        <option value="dni">DNI</option>
+                                    {% endif %}       
+                                </select> 
+                            </div>
+
+                            <!-- Campo de texto -->
+                            <div class="form-group">
+                                <label for="nro_documento">Numero de documento:</label>
+                                <input type="text" class="form-control" id="nro_documento" name="nro_documento" value="{{ usuario.nro_documento }}">
+                            </div>
+
+                           <!-- Campo de texto-->
+                            <div class="form-group">
+                                <label for="direccion">Direccion:</label>
+                                <input type="text" id="direccion" class="form-control" name="direccion" value="{{ usuario.direccion }}">
+                            </div>
+                        </div>
+                        <!-- Columna 3 -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <!-- Campo select -->
+                                <label for="genero">Genero:</label>
+                                <select class="form-control" id="genero" name="genero" style="margin-bottom: 15px;">
+                                    {% if usuario.genero == "F" %}
+                                        <option value="{{ usuario.genero }}" selected="true">Femenino</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="O">Otro (especifique abajo)</option>
+                                        <option value="P">Prefiero no decirlo</option>
+                                    {% elif usuario.genero == "M" %}
+                                        <option value="{{ usuario.genero }}" selected="true">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                        <option value="O">Otro (especifique abajo)</option>
+                                        <option value="P">Prefiero no decirlo</option>
+                                    {% elif usuario.genero == "O" %}
+                                        <option value="{{ usuario.genero }}" selected="true">Otro (especifique abajo)</option>
+                                        <option value="F">Femenino</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="P">Prefiero no decirlo</option>
+                                    {% elif usuario.genero == "P" %}
+                                        <option value="{{ usuario.genero }}" selected="true">Prefiero no decirlo</option>
+                                        <option value="F">Femenino</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="O">Otro (especifique abajo)</option>
+                                    {% endif %}  
+                                </select> 
+                            </div>
+                            <!-- Campo de texto -->
+                            <div class="form-group">
+                                <label for="genero_otro">Especifique el genero:</label>
+                                <input type="text" class="form-control" id="genero_otro" name="genero_otro" disabled="disable">
+                            </div>
+
+                            <!-- Campo de texto  -->
+                            <div class="form-group">
+                                <label for="telefono">Telefono:</label>
+                                <input type="text" id="telefono" class="form-control" name="telefono" value="{{ usuario.telefono }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if not usuario.es_cuenta_google %}
+                    <div class="form-group">
+                        <label for="nueva_contraseña">Contraseña:</label>
+                        <input type="password" id="nueva_contraseña" class="form-control" name="nueva_contraseña" placeholder="Deje vacio para mantener la misma contraseña">
+                    </div>
+                    {% endif %}
+
+                    <!-- Botones de envío y volver -->
+                    <div class="card-footer bg-transparent border-success text-right">
+                        <div class="row mt-3">
+                            <div class="col-md-4 ">
+                                <a href="/" class="btn btn-secondary btn-block mt-1">Volver</a>
+                            </div>
+                            {% if usuario.es_cuenta_google %}
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-success btn-block mt-1" formaction="/usuarios/modificar-perfil-google" >Modificar perfil</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-danger btn-block mt-1" formaction="/usuarios/eliminar-perfil-google" >Eliminar perfil</button>
+                                </div>
+                            {% else %}
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-success btn-block mt-1" data-toggle="modal" data-target="#modificar_perfil_modal">Modificar perfil</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-danger btn-block mt-1" data-toggle="modal" data-target="#eliminar_usuario_modal">Eliminar perfil</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Modal modificar Perfil-->
+                     <div class="modal fade" id="modificar_perfil_modal" tabindex="-1" role="dialog" aria-labelledby="titulo_modal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #2bac38;">
+                                    <h5 class="modal-title" id="titulo_modal">Modificar perfil</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="text-align: center;">
+                                    <h4>Ingrese su contraseña:</h4>
+                                    <p style="color: gray;">Es necesario validar que realmente es usted para poder modificar sus datos.</p>
+                                    <input type="password" id="chequeo_contraseña" class="form-control" name="chequeo_contraseña">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success btn-block" formaction="/usuarios/modificar-perfil">Modificar datos</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Eliminar Perfil -->
+                    <div class="modal fade" id="eliminar_usuario_modal" tabindex="-1" role="dialog" aria-labelledby="titulo_modal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="titulo_modal">Eliminacion definitiva</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="text-align: center;">
+                                    <h5>¿Esta seguro que desea <strong>eliminar</strong> su perfil?</h5>
+                                    <p>Se borrara su cuenta, junto con todos sus datos y se cerrará su sesion</p>
+                                    <p style="color: gray;">Esta accion no puede revertise, accione con precaución</p>
+                                    <p>Ingrese su contraseña para confirmar la eliminacion:</p>
+                                    <input type="password" id="chequeo_contraseña_eliminar" class="form-control" name="chequeo_contraseña_eliminar">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger btn-block" formaction="/usuarios/eliminar-perfil">
+                                        <i class="bi bi-x-circle" style></i> Eliminar definitivamente
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+    $(document).ready(function() {
+        $('#genero').change(function() {
+        // Obtiene el valor seleccionado del select del genero
+        var valor_seleccionado = $(this).val();
+    
+        var campoTexto = $('#genero_otro');
+
+        // Verificar el valor seleccionado y habilitar o deshabilitar el campo de texto
+        if (valor_seleccionado === 'O') {
+            campoTexto.prop('disabled', false);
+        } else {
+            campoTexto.prop('disabled', true);
+        }
+        });
+      });
+    </script>
+{% endblock %}
